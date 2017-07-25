@@ -41,11 +41,12 @@ module.exports = function(app, config) {
         function(req, accessToken, refreshToken, profile, done) {
             // asynchronous verification, for effect...
             process.nextTick(function() {
-              console.log('logging in')
+              console.log('logging in', profile)
                 // To keep the example simple, the user's Google profile is returned to
                 // represent the logged-in user.  In a typical application, you would want
                 // to associate the Google account with a user record in your database,
                 // and return that user instead.
+                req.user = profile;
                 return done(null, profile);
             });
         }));
@@ -63,15 +64,17 @@ module.exports = function(app, config) {
 
     app.get('/auth/google/callback',
         passport.authenticate('google', {
-            failureRedirect: '/login',
+            failureRedirect: '/',
             failureFlash: false
         }),
         function(req, res) {
             // if (req.user._json.domain != "tru-signal.com") {
             //     req.logout();
             // }
-            console.log('doing the redirect to /')
-            res.redirect('/');
+            console.log('doing the redirect to /home')
+            res.redirect('/home');
+            // req.user = profile;
+            // res.send(req.user);
         });
 };
 

@@ -25,6 +25,10 @@ app.use(function(err, req, res, next){
   res.status(err.statusCode || 500).json(err);
 });
 
+app.get('*', function (req, res) {
+    res.sendFile(__dirname + '/root/public/index.html');
+});
+
 app.listen(listenPort, function(){
   console.log('server listening on port', listenPort + '...');
 });

@@ -1,4 +1,21 @@
-angular.module('GigApp', [])
+angular.module('GigApp', ['ngRoute'])
+  .config(function($routeProvider, $locationProvider){
+    $locationProvider.html5Mode({
+      enabled: true,
+      rewriteLinks: 'internal-link'
+      // requireBase: false
+    });
+
+    $routeProvider
+      .when('/', {
+        controller: 'LoginController',
+        templateUrl: '/partials/login.html'
+      })
+      .when('/home', {
+        controller: 'HomeController',
+        templateUrl: '/partials/home.html'
+      })
+  })
   .factory('LoginService', function($http, $q){
     return {
       login: function(user){
@@ -16,8 +33,8 @@ angular.module('GigApp', [])
       }
     }
   })
-  .controller('LoginController', function($scope, LoginService){
-    console.log('loaded');
+  .controller('LoginController', function($scope, $location, LoginService){
+    console.log('loaded', $location.url());
 
     $scope.login = function(){
       LoginService.login({}).then(function(resp){
