@@ -1,3 +1,5 @@
 {
-  
+  "googleID": "11399385504-idl652a7n5r3j8mc2e1oua97d4scd0uo.apps.googleusercontent.com",
+  "googleSecret": "5xnau3pbHzB8sin0aJHwX0Ek",
+  "googleCallback": "/auth/google/callback"
 }

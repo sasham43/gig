@@ -4,11 +4,12 @@ var session = require('express-session');
 var cookieSession = require('cookie-session');
 var flash = require('connect-flash');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-var request = require('request');
-var _ = require("underscore");
+// var request = require('request');
+// var _ = require("underscore");
 
 module.exports = function(app, config) {
-    var configAuth = config.auth;
+    console.log('doing the config')
+    var configAuth = config;
     app.use(cookieParser()); // read cookies (needed for auth)
     app.use(cookieSession({
         secret: 'youateanentirewheelofcheese2',
@@ -32,24 +33,24 @@ module.exports = function(app, config) {
     // GOOGLE ==================================================================
     // =========================================================================
     passport.use(new GoogleStrategy({
-        clientID: configAuth.googleAuth.clientID,
-        clientSecret: configAuth.googleAuth.clientSecret,
-        callbackURL: configAuth.googleAuth.callbackURL,
+        clientID: configAuth.googleID,
+        clientSecret: configAuth.googleSecret,
+        callbackURL: configAuth.googleCallback,
         passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
     },
         function(req, accessToken, refreshToken, profile, done) {
             // asynchronous verification, for effect...
             process.nextTick(function() {
-
+              console.log('logging in')
                 // To keep the example simple, the user's Google profile is returned to
                 // represent the logged-in user.  In a typical application, you would want
                 // to associate the Google account with a user record in your database,
                 // and return that user instead.
-                return done(null, 'go go go');
+                return done(null, profile);
             });
         }));
 
-    app.use(isLoggedIn);
+    // app.use(isLoggedIn);
 
     app.get('/login', passport.authenticate('google', {
         scope: ['email']
@@ -69,12 +70,16 @@ module.exports = function(app, config) {
             // if (req.user._json.domain != "tru-signal.com") {
             //     req.logout();
             // }
+            console.log('doing the redirect to /')
             res.redirect('/');
         });
 };
 
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated() || req.path == "/auth/google/callback" || req.path == "/login" || req.path == "/logout")
+    if (req.isAuthenticated() || req.path == "/" || req.path == "/auth/google/callback" || req.path == "/login" || req.path == "/logout") {
+        console.log('is authenticated', req.isAuthenticated(), req.path)
         return next();
-    res.redirect('/login');
+    }
+    console.log('redirect to /login')
+    res.redirect('/');
 }

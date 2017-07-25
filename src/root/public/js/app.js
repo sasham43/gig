@@ -4,7 +4,7 @@ angular.module('GigApp', [])
       login: function(user){
         var d = $q.defer();
 
-        $http.post('/auth/login', user).then(function(resp){
+        $http.get('/login').then(function(resp){
           console.log('resp:', resp);
           d.resolve(resp);
         }).catch(function(err){
@@ -16,6 +16,14 @@ angular.module('GigApp', [])
       }
     }
   })
-  .controller('LoginController', function(LoginService){
+  .controller('LoginController', function($scope, LoginService){
     console.log('loaded');
+
+    $scope.login = function(){
+      LoginService.login({}).then(function(resp){
+        console.log("did it");
+      }).catch(function(err){
+        console.log("error");
+      });
+    };
   })
