@@ -15,6 +15,14 @@ angular.module('GigApp', ['ngRoute'])
         controller: 'HomeController',
         templateUrl: '/partials/home.html'
       })
+      .when('/map', {
+        controller: 'MapController',
+        templateUrl: '/partials/map.html'
+      })
+      .when('/list', {
+        controller: 'ListController',
+        templateUrl: '/partials/list.html'
+      })
   })
   .factory('LoginService', function($http, $q){
     return {
@@ -43,4 +51,13 @@ angular.module('GigApp', ['ngRoute'])
         console.log("error");
       });
     };
+  })
+  .controller('HomeController', function($scope){
+    console.log('home')
+  })
+  .controller('MapController', function($scope){
+    console.log('map')
+  })
+  .controller('ListController', function($scope){
+    console.log('list')
   })
