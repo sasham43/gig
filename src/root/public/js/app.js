@@ -41,6 +41,14 @@ angular.module('GigApp', ['ngRoute'])
       }
     }
   })
+  .directive('gigMenu', function(){
+    return {
+      restrict: 'E',
+      // template: '<div>test</div>',
+      scope: {},
+      templateUrl: '/partials/menu.html'
+    }
+  })
   .controller('LoginController', function($scope, $location, LoginService){
     console.log('loaded', $location.url());
 
