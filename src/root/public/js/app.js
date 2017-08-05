@@ -56,7 +56,13 @@ angular.module('GigApp', ['ngRoute'])
     console.log('home')
   })
   .controller('MapController', function($scope){
-    console.log('map')
+    console.log('map');
+
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic2FzaGFtNDMiLCJhIjoiY2lvYmlwZXB4MDN5Z3ZpbHp6Y29iNDNzOCJ9.07e5GLdp6XXmtuTGTshyWw';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v9'
+    });
   })
   .controller('ListController', function($scope){
     console.log('list')
