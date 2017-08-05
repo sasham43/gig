@@ -71,6 +71,13 @@ angular.module('GigApp', ['ngRoute'])
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v9'
     });
+    // Add geolocate control to the map.
+    map.addControl(new mapboxgl.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true
+        },
+        trackUserLocation: true
+    }));
   })
   .controller('ListController', function($scope){
     console.log('list')
