@@ -46,7 +46,7 @@ angular.module('GigApp', ['ngRoute'])
       add_location: function(location){
         var d = $q.defer();
 
-        $http.post('/locations/add', location).then(function(resp){
+        $http.post('api/locations/add', location).then(function(resp){
           d.resolve(resp.data);
         }).catch(function(err){
           d.reject(err);
@@ -57,7 +57,7 @@ angular.module('GigApp', ['ngRoute'])
       get_locations: function(){
         var d = $q.defer();
 
-        $http.get('/locations/').then(function(resp){
+        $http.get('api/locations/').then(function(resp){
           d.resolve(resp.data);
         }).catch(function(err){
           d.reject(err);
@@ -72,7 +72,7 @@ angular.module('GigApp', ['ngRoute'])
       add_gig: function(location){
         var d = $q.defer();
 
-        $http.post('/gigs/add', location).then(function(resp){
+        $http.post('api/gigs/add', location).then(function(resp){
           d.resolve(resp.data);
         }).catch(function(err){
           d.reject(err);
@@ -83,7 +83,7 @@ angular.module('GigApp', ['ngRoute'])
       get_gigs: function(){
         var d = $q.defer();
 
-        $http.get('/gigs/').then(function(resp){
+        $http.get('api/gigs/').then(function(resp){
           d.resolve(resp.data);
         }).catch(function(err){
           d.reject(err);
@@ -98,7 +98,18 @@ angular.module('GigApp', ['ngRoute'])
       get_maps: function(){
         var d = $q.defer();
 
-        $http.get('/maps/').then(function(resp){
+        $http.get('api/maps/').then(function(resp){
+          d.resolve(resp.data);
+        }).catch(function(err){
+          d.reject(err);
+        });
+
+        return d.promise;
+      },
+      geocode: function(address){
+        var d = $q.defer();
+
+        $http.post('api/maps/geocode', address).then(function(resp){
           d.resolve(resp.data);
         }).catch(function(err){
           d.reject(err);
@@ -193,7 +204,7 @@ angular.module('GigApp', ['ngRoute'])
       $scope.show_new_gig = false;
     };
   })
-  .controller('MapController', function($scope, MapService){
+  .controller('MapController', function($scope, MapService, GigService, LocationService){
     console.log('map');
 
     MapService.get_maps().then(function(mapbox){
@@ -210,6 +221,19 @@ angular.module('GigApp', ['ngRoute'])
           },
           trackUserLocation: true
       }));
+    });
+
+    LocationService.get_locations().then(function(resp){
+      console.log('gigs:', resp);
+      $scope.gigs = resp;
+
+      var address = $scope.gigs[6].street + ' ' + $scope.gigs[6].city + ' ' + $scope.gigs[6].state + ' ' + $scope.gigs[6].zip;
+
+      MapService.geocode(address).then(function(resp){
+        console.log('geocode:', resp);
+      }).catch(function(err){
+        console.log('err', err);
+      });
     })
 
     // mapboxgl.accessToken = 'pk.eyJ1Ijoic2FzaGFtNDMiLCJhIjoiY2lvYmlwZXB4MDN5Z3ZpbHp6Y29iNDNzOCJ9.07e5GLdp6XXmtuTGTshyWw';

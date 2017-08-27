@@ -6,11 +6,15 @@ var massive = require('massive');
 var config = _config.get();
 var connections;
 
-module.exports = function(name){
+module.exports = function(name, thing){
   connections = connections || {};
   var d = q.defer();
 
+  console.log('connections:',thing, Object.keys(connections))
+  // console.time('connect');
+
   if(connections[name]){
+    console.log('using existing connect:', thing)
     d.resolve(connections[name])
   } else {
     console.log('connecting to db')
@@ -21,6 +25,8 @@ module.exports = function(name){
     }).then(function(db){
         // console.log('connected to db:',db)
         connections[name] = db;
+        console.log('connections2:', thing,Object.keys(connections))
+        // console.timeEnd('connect');
         d.resolve(db);
     }).catch(function(err){
       console.log('err connecting to db:', err)

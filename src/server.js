@@ -7,6 +7,8 @@ var locations = require('./locations');
 var gigs = require('./gigs');
 var maps = require('./maps');
 
+var dbconn = require('./db')
+
 var app = express();
 
 app.use(bodyParser.urlencoded({
@@ -21,9 +23,17 @@ require('./auth.js')(app, config);
 
 var listenPort = process.env.PORT || 3001;
 
-app.use('/locations',locations);
-app.use('/gigs',gigs);
-app.use('/maps',maps);
+app.use('/api',function(req, res, next){
+  console.log('get url', req.url)
+  dbconn('gig-db', req.url).then(function(db){
+    req.db = db;
+    next();
+  });
+});
+
+app.use('/api/locations',locations);
+app.use('/api/gigs',gigs);
+app.use('/api/maps',maps);
 app.use('/', root);
 
 app.use(function(err, req, res, next){

@@ -3,12 +3,12 @@ var router = express.Router();
 
 var dbconn = require('./db');
 
-router.use(function(req, res, next){
-  dbconn('gig-db').then(function(db){
-    req.db = db;
-    next();
-  });
-});
+// router.use(function(req, res, next){
+//   dbconn('gig-db', 'loc').then(function(db){
+//     req.db = db;
+//     next();
+//   });
+// });
 
 router.get('/', function(req, res, next){
   req.db.locations.find().then(function(resp){
