@@ -44,9 +44,12 @@
   </div>
   <div class="locations">
     <div class="location" ng-repeat="l in locations">
-      <div>
+      <div class="col-md-11">
         {{l.name}}
       </div>
+      <button class="btn col-md-1" ng-click="edit_location(l)">
+        Edit
+      </button>
     </div>
   </div>
 </div>

@@ -116,6 +116,10 @@ angular.module('GigApp', ['ngRoute'])
         console.log('err saving location:', err);
       });
     };
+    $scope.edit_location = function(l){
+      $scope.new_location = l;
+      $scope.show_new_location = true;
+    };
   })
   .controller('MapController', function($scope){
     console.log('map');
