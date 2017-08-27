@@ -8,7 +8,7 @@
       <button class="btn btn-default btn-lg" ng-click="add_location()">Add New Location</button>
     </div>
     <div class="add-new-gig">
-      <button class="btn btn-info btn-lg" ng-click="addGig()">Add New Gig</button>
+      <button class="btn btn-info btn-lg" ng-click="add_gig()">Add New Gig</button>
     </div>
   </div>
   <div class="forms">
@@ -40,6 +40,40 @@
 
       <button class="btn btn-success" ng-click="save_location()">Save</button>
       <button class="btn btn-danger" ng-click="cancel_location()">Cancel</button>
+    </div>
+    <div ng-show="show_new_gig">
+      <div class="form-group">
+        <label for="gig_name">Name</label>
+        <input type="text" ng-model="new_gig.name" class="form-control" id="gig_name" placeholder="Name">
+      </div>
+      <div class="form-group">
+        <label>Location</label>
+        <select ng-model="new_gig.location">
+          <option ng-repeat="l in locations" ng-value="l.id">
+            {{l.name}}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Start Date</label>
+        <input type="date" ng-model="new_gig.start_date" />
+      </div>
+      <div class="form-group">
+        <label>End Date</label>
+        <input type="date" ng-model="new_gig.end_date" />
+      </div>
+
+      <button class="btn btn-success" ng-click="save_gig()">Save</button>
+      <button class="btn btn-danger" ng-click="cancel_gig()">Cancel</button>
+    </div>
+
+
+  </div>
+  <div class="gigs">
+    <div class="gig" ng-repeat="g in gigs">
+      <div class="col-md-11">
+        {{g.name}}
+      </div>
     </div>
   </div>
   <div class="locations">

@@ -67,6 +67,32 @@ angular.module('GigApp', ['ngRoute'])
       }
     }
   })
+  .factory('GigService', function($http, $q){
+    return {
+      add_gig: function(location){
+        var d = $q.defer();
+
+        $http.post('/gigs/add', location).then(function(resp){
+          d.resolve(resp.data);
+        }).catch(function(err){
+          d.reject(err);
+        });
+
+        return d.promise;
+      },
+      get_gigs: function(){
+        var d = $q.defer();
+
+        $http.get('/gigs/').then(function(resp){
+          d.resolve(resp.data);
+        }).catch(function(err){
+          d.reject(err);
+        });
+
+        return d.promise;
+      }
+    }
+  })
   .directive('gigMenu', function(){
     return {
       restrict: 'E',
@@ -86,11 +112,15 @@ angular.module('GigApp', ['ngRoute'])
       });
     };
   })
-  .controller('HomeController', function($scope, LocationService){
+  .controller('HomeController', function($scope, LocationService, GigService){
     console.log('home');
     $scope.show_new_location = false;
     $scope.new_location = {};
     $scope.locations = [];
+
+    $scope.show_new_gig = false;
+    $scope.new_gig = {};
+    $scope.gigs = [];
 
     $scope.get_locations = function(){
       LocationService.get_locations().then(function(resp){
@@ -119,6 +149,32 @@ angular.module('GigApp', ['ngRoute'])
     $scope.edit_location = function(l){
       $scope.new_location = l;
       $scope.show_new_location = true;
+    };
+
+    $scope.get_gigs = function(){
+      GigService.get_gigs().then(function(resp){
+        $scope.gigs = resp;
+      });
+    };
+    $scope.add_gig = function(){
+      $scope.show_new_gig = true;
+    };
+    $scope.save_gig = function(){
+      GigService.add_gig($scope.new_gig).then(function(resp){
+        $scope.new_gig = {};
+        $scope.show_new_gig = false;
+        $scope.get_gigs();
+      }).catch(function(err){
+        console.log('err saving gig:', err);
+      });
+    };
+    $scope.cancel_gig = function(){
+      $scope.show_new_gig = false;
+      $scope.new_gig = {};
+    };
+    $scope.edit_gig = function(g){
+      $scope.new_gig = g;
+      $scope.show_new_gig = false;
     };
   })
   .controller('MapController', function($scope){
