@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var config = require('./config').get();
 
 var root = require('./root');
+var locations = require('./locations');
 
 var app = express();
 
@@ -18,6 +19,7 @@ require('./auth.js')(app, config);
 
 var listenPort = process.env.PORT || 3001;
 
+app.use('/locations',locations);
 app.use('/', root);
 
 app.use(function(err, req, res, next){

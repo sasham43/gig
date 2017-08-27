@@ -41,6 +41,21 @@ angular.module('GigApp', ['ngRoute'])
       }
     }
   })
+  .factory('LocationService', function($http, $q){
+    return {
+      add_location: function(location){
+        var d = $q.defer();
+
+        $http.post('/locations/add', location).then(function(resp){
+          d.resolve(resp.data);
+        }).catch(function(err){
+          d.reject(err);
+        });
+
+        return d.promise;
+      }
+    }
+  })
   .directive('gigMenu', function(){
     return {
       restrict: 'E',
@@ -60,8 +75,21 @@ angular.module('GigApp', ['ngRoute'])
       });
     };
   })
-  .controller('HomeController', function($scope){
-    console.log('home')
+  .controller('HomeController', function($scope, LocationService){
+    console.log('home');
+    $scope.show_new_location = false;
+    $scope.new_location = {};
+
+    $scope.add_location = function(){
+      $scope.show_location_form = true;
+    };
+    $scope.save_location = function(){
+      LocationService.add_location($scope.new_location).then(function(resp){
+        console.log('saved location:', resp);
+      }).catch(function(err){
+        console.log('err saving location:', err);
+      });
+    };
   })
   .controller('MapController', function($scope){
     console.log('map');

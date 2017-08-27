@@ -3,4 +3,43 @@
   <div>
     <gig-menu></gig-menu>
   </div>
+  <div class="actions">
+    <div class="add-new-location">
+      <button class="btn btn-default btn-lg" ng-click="add_location()">Add New Location</button>
+    </div>
+    <div class="add-new-gig">
+      <button class="btn btn-info btn-lg" ng-click="addGig()">Add New Gig</button>
+    </div>
+  </div>
+  <div class="forms">
+    <div ng-show="show_location_form">
+      <div class="form-group">
+        <label for="location_name">Name</label>
+        <input type="text" ng-model="new_location.name" class="form-control" id="location_name" placeholder="Name">
+      </div>
+      <div class="form-group">
+        <label for="location_street">Street</label>
+        <input type="text" ng-model="new_location.street" class="form-control" id="location_street" placeholder="Street">
+      </div>
+      <div class="form-group">
+        <label for="location_city">City</label>
+        <input type="text" ng-model="new_location.city" class="form-control" id="location_city" placeholder="City">
+      </div>
+      <div class="form-group">
+        <label for="location_state">State</label>
+        <input type="text" ng-model="new_location.state" class="form-control" id="location_state" placeholder="State">
+      </div>
+      <div class="form-group">
+        <label for="location_zip">Zip Code</label>
+        <input type="number" ng-model="new_location.zip" class="form-control" id="location_zip" placeholder="Zip Code">
+      </div>
+      <div class="form-group">
+        <label for="location_image">Image URL</label>
+        <input type="text" ng-model="new_location.image" class="form-control" id="location_image" placeholder="Image">
+      </div>
+
+      <button class="btn btn-success" ng-click="save_location()">Save</button>
+      <button class="btn btn-danger" ng-click="cancelLocation()">Cancel</button>
+    </div>
+  </div>
 </div>
