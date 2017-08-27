@@ -93,6 +93,21 @@ angular.module('GigApp', ['ngRoute'])
       }
     }
   })
+  .factory('MapService', function($q, $http){
+    return {
+      get_maps: function(){
+        var d = $q.defer();
+
+        $http.get('/maps/').then(function(resp){
+          d.resolve(resp.data);
+        }).catch(function(err){
+          d.reject(err);
+        });
+
+        return d.promise;
+      }
+    }
+  })
   .directive('gigMenu', function(){
     return {
       restrict: 'E',
@@ -178,26 +193,42 @@ angular.module('GigApp', ['ngRoute'])
       $scope.show_new_gig = false;
     };
   })
-  .controller('MapController', function($scope){
+  .controller('MapController', function($scope, MapService){
     console.log('map');
 
-    mapboxgl.accessToken = 'pk.eyJ1Ijoic2FzaGFtNDMiLCJhIjoiY2lvYmlwZXB4MDN5Z3ZpbHp6Y29iNDNzOCJ9.07e5GLdp6XXmtuTGTshyWw';
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v9'
-    });
-    // Add geolocate control to the map.
-    map.addControl(new mapboxgl.GeolocateControl({
-        positionOptions: {
-            enableHighAccuracy: true
-        },
-        trackUserLocation: true
-    }));
-
-    var geocode = new MapboxGeocoder({
-      accessToken: 'pk.eyJ1Ijoic2FzaGFtNDMiLCJhIjoiY2lvYmlwZXB4MDN5Z3ZpbHp6Y29iNDNzOCJ9.07e5GLdp6XXmtuTGTshyWw'
+    MapService.get_maps().then(function(mapbox){
+      // console.log('got map:', mapbox);
+      mapboxgl.accessToken = mapbox.accessToken;
+      var map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/mapbox/streets-v9'
+      });
+      // Add geolocate control to the map.
+      map.addControl(new mapboxgl.GeolocateControl({
+          positionOptions: {
+              enableHighAccuracy: true
+          },
+          trackUserLocation: true
+      }));
     })
-    console.log('geocode:', geocode);
+
+    // mapboxgl.accessToken = 'pk.eyJ1Ijoic2FzaGFtNDMiLCJhIjoiY2lvYmlwZXB4MDN5Z3ZpbHp6Y29iNDNzOCJ9.07e5GLdp6XXmtuTGTshyWw';
+    // var map = new mapboxgl.Map({
+    //     container: 'map',
+    //     style: 'mapbox://styles/mapbox/streets-v9'
+    // });
+    // // Add geolocate control to the map.
+    // map.addControl(new mapboxgl.GeolocateControl({
+    //     positionOptions: {
+    //         enableHighAccuracy: true
+    //     },
+    //     trackUserLocation: true
+    // }));
+    //
+    // var geocode = new MapboxGeocoder({
+    //   accessToken: 'pk.eyJ1Ijoic2FzaGFtNDMiLCJhIjoiY2lvYmlwZXB4MDN5Z3ZpbHp6Y29iNDNzOCJ9.07e5GLdp6XXmtuTGTshyWw'
+    // })
+    // console.log('geocode:', geocode);
   })
   .controller('ListController', function($scope){
     console.log('list')

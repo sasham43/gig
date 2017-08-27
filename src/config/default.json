@@ -5,6 +5,5 @@
   "gig-db": {
     "connection": "postgresql://sashakramer@localhost:5432/gig"
   },
-  "dbUser": "master",
-  "dbPass": "1potato2potato"
+  "mapbox_token": "pk.eyJ1Ijoic2FzaGFtNDMiLCJhIjoiY2lvYmlwZXB4MDN5Z3ZpbHp6Y29iNDNzOCJ9.07e5GLdp6XXmtuTGTshyWw"
 }

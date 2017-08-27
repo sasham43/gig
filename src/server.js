@@ -5,6 +5,7 @@ var config = require('./config').get();
 var root = require('./root');
 var locations = require('./locations');
 var gigs = require('./gigs');
+var maps = require('./maps');
 
 var app = express();
 
@@ -22,6 +23,7 @@ var listenPort = process.env.PORT || 3001;
 
 app.use('/locations',locations);
 app.use('/gigs',gigs);
+app.use('/maps',maps);
 app.use('/', root);
 
 app.use(function(err, req, res, next){
