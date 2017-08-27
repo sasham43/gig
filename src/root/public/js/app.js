@@ -156,6 +156,7 @@ angular.module('GigApp', ['ngRoute'])
         $scope.gigs = resp;
       });
     };
+    $scope.get_gigs();
     $scope.add_gig = function(){
       $scope.show_new_gig = true;
     };
@@ -192,6 +193,11 @@ angular.module('GigApp', ['ngRoute'])
         },
         trackUserLocation: true
     }));
+
+    var geocode = new MapboxGeocoder({
+      accessToken: 'pk.eyJ1Ijoic2FzaGFtNDMiLCJhIjoiY2lvYmlwZXB4MDN5Z3ZpbHp6Y29iNDNzOCJ9.07e5GLdp6XXmtuTGTshyWw'
+    })
+    console.log('geocode:', geocode);
   })
   .controller('ListController', function($scope){
     console.log('list')
