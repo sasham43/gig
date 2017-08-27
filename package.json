@@ -12,6 +12,7 @@
   "dependencies": {
     "angular": "^1.6.5",
     "angular-route": "^1.6.5",
+    "assert": "^1.4.1",
     "body-parser": "^1.17.2",
     "bootstrap": "^3.3.7",
     "connect-flash": "^0.1.1",
@@ -19,9 +20,11 @@
     "cookie-session": "^2.0.0-beta.2",
     "express": "^4.15.3",
     "express-session": "^1.15.4",
+    "massive": "^3.2.2",
     "nconf": "^0.8.4",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
-    "passport-oauth": "^1.0.0"
+    "passport-oauth": "^1.0.0",
+    "q": "^1.5.0"
   }
 }

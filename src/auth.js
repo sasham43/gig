@@ -6,6 +6,13 @@ var flash = require('connect-flash');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 // var request = require('request');
 // var _ = require("underscore");
+var dbconn = require('./db');
+
+var db;
+// dbconn('gig-db').then(function(thing){
+//   db = thing;
+//   console.log('connected to db')
+// })
 
 module.exports = function(app, config) {
     console.log('doing the config')
@@ -46,8 +53,40 @@ module.exports = function(app, config) {
                 // represent the logged-in user.  In a typical application, you would want
                 // to associate the Google account with a user record in your database,
                 // and return that user instead.
-                req.user = profile;
-                return done(null, profile);
+                dbconn('gig-db').then(function(db){
+                  // db = thin
+
+                  // console.log('connected to db')
+                  db.users.find({google_id: profile.id}).then(function(resp){
+                      if(resp.length && resp.length > 0){
+                        req.user[0] = resp;
+                        return done(null, profile);
+                      } else {
+                        db.users.save({
+                          first_name: profile.name.givenName,
+                          last_name: profile.name.familyName,
+                          google_id: profile.id,
+                          google_image: profile.photos[0].value
+                        }).then(function(resp){
+                            console.log('saved user:', resp);
+                            req.user = resp[0];
+                            return done(null, profile);
+                        }).catch(function(err){
+                          console.log('err saving user', err);
+                          return done(err);
+                        })
+                      }
+                  }).catch(function(err){
+                    console.log('err finding user', err);
+                    return done(err);
+                  })
+                }).catch(function(err){
+                  console.log('err connecting to db', err);
+                  return done(err);
+                })
+
+                // req.user = profile;
+                // return done(null, profile);
             });
         }));
 
