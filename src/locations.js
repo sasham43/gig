@@ -10,6 +10,15 @@ router.use(function(req, res, next){
   });
 });
 
+router.get('/', function(req, res, next){
+  req.db.locations.find().then(function(resp){
+    res.status(200).send(resp);
+  }).catch(function(err){
+    console.log('failed get', err);
+    return next(err);
+  });
+});
+
 router.post('/add', function(req, res, next){
   var location = req.body;
   location.owner_id = req.user.id;

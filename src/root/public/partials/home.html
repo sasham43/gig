@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="forms">
-    <div ng-show="show_location_form">
+    <div ng-show="show_new_location">
       <div class="form-group">
         <label for="location_name">Name</label>
         <input type="text" ng-model="new_location.name" class="form-control" id="location_name" placeholder="Name">
@@ -39,7 +39,14 @@
       </div>
 
       <button class="btn btn-success" ng-click="save_location()">Save</button>
-      <button class="btn btn-danger" ng-click="cancelLocation()">Cancel</button>
+      <button class="btn btn-danger" ng-click="cancel_location()">Cancel</button>
+    </div>
+  </div>
+  <div class="locations">
+    <div class="location" ng-repeat="l in locations">
+      <div>
+        {{l.name}}
+      </div>
     </div>
   </div>
 </div>

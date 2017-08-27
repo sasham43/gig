@@ -53,6 +53,17 @@ angular.module('GigApp', ['ngRoute'])
         });
 
         return d.promise;
+      },
+      get_locations: function(){
+        var d = $q.defer();
+
+        $http.get('/locations/').then(function(resp){
+          d.resolve(resp.data);
+        }).catch(function(err){
+          d.reject(err);
+        });
+
+        return d.promise;
       }
     }
   })
@@ -79,13 +90,28 @@ angular.module('GigApp', ['ngRoute'])
     console.log('home');
     $scope.show_new_location = false;
     $scope.new_location = {};
+    $scope.locations = [];
+
+    $scope.get_locations = function(){
+      LocationService.get_locations().then(function(resp){
+        $scope.locations = resp;
+      });
+    };
+    $scope.get_locations();
 
     $scope.add_location = function(){
-      $scope.show_location_form = true;
+      $scope.show_new_location = true;
+    };
+    $scope.cancel_location = function(){
+      $scope.show_new_location = false;
+      $scope.new_location = {};
     };
     $scope.save_location = function(){
       LocationService.add_location($scope.new_location).then(function(resp){
         console.log('saved location:', resp);
+        $scope.new_location = {};
+        $scope.show_new_location = false;
+        $scope.get_locations();
       }).catch(function(err){
         console.log('err saving location:', err);
       });
