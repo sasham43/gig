@@ -15,16 +15,18 @@ var client = new mapbox(mapbox_token)
 //   });
 // });
 
-router.post('/geocode', function(req, res, next){
-  console.log('geocode:', req.body)
-  client.geocodeForward(req.body)
+router.get('/geocode/:address', function(req, res, next){
+  console.log('geocode:', req.params.address)
+  client.geocodeForward(req.params.address, {})
   .then(function(response) {
+    console.log('good')
     // res is the http response, including: status, headers and entity properties
     var data = response.entity; // data is the geocoding result as parsed JSON
-    res.status(200).send(data);
+    res.status(200).send(response);
   })
   .catch(function(err) {
     // handle errors
+    console.log('bad')
     return next(err);
   });
 });

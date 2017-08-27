@@ -7,7 +7,8 @@ var locations = require('./locations');
 var gigs = require('./gigs');
 var maps = require('./maps');
 
-var dbconn = require('./db')
+var dbconn = require('./db');
+dbconn('gig-db');
 
 var app = express();
 

@@ -108,8 +108,8 @@ angular.module('GigApp', ['ngRoute'])
       },
       geocode: function(address){
         var d = $q.defer();
-
-        $http.post('api/maps/geocode', address).then(function(resp){
+        // console.log('address:', address)
+        $http.get('api/maps/geocode/' + address).then(function(resp){
           d.resolve(resp.data);
         }).catch(function(err){
           d.reject(err);
@@ -212,7 +212,12 @@ angular.module('GigApp', ['ngRoute'])
       mapboxgl.accessToken = mapbox.accessToken;
       var map = new mapboxgl.Map({
           container: 'map',
-          style: 'mapbox://styles/mapbox/streets-v9'
+          style: 'mapbox://styles/mapbox/streets-v9',
+          center: [
+            -93.281765,
+            44.963267
+          ],
+          zoom:5
       });
       // Add geolocate control to the map.
       map.addControl(new mapboxgl.GeolocateControl({
@@ -221,20 +226,77 @@ angular.module('GigApp', ['ngRoute'])
           },
           trackUserLocation: true
       }));
+
+      $scope.markers = [];
+
+      LocationService.get_locations().then(function(resp){
+        console.log('gigs:', resp);
+        $scope.locations = resp;
+
+        // var lat_lng = [
+        //   $scope.locations[6].lat,
+        //   $scope.locations[6].lng
+        // ]
+        // new mapboxgl.Marker()
+        //   .setLngLat(lat_lng)
+        //   .addTo(map);
+
+        // el.addEventListener('click', function() {
+        //     window.alert(marker.properties.message);
+        // });
+
+        $scope.locations.map(function(l, index){
+          // if(index == 6){
+
+
+          var el = document.createElement('div');
+          // el.classList.push('glyphicon');
+          // el.classList.push('glyphicon-map-marker');
+          // el.className = 'marker';
+          // el.id = 'location-mark' + index;
+          // el.style.backgroundImage = 'url(https://static.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg)';
+          // el.style.width = '100px';
+          // el.style.height = '100px';
+
+          var lat_lng = [
+            l.lat,
+            l.lng
+          ]
+        var marker =  new mapboxgl.Marker(el);
+            marker.setLngLat(lat_lng)
+            marker.addTo(map);
+          // }
+          $scope.markers.push(marker);
+        });
+        console.log('markers"', $scope.markers);
+      });
     });
 
-    LocationService.get_locations().then(function(resp){
-      console.log('gigs:', resp);
-      $scope.gigs = resp;
-
-      var address = $scope.gigs[6].street + ' ' + $scope.gigs[6].city + ' ' + $scope.gigs[6].state + ' ' + $scope.gigs[6].zip;
-
-      MapService.geocode(address).then(function(resp){
-        console.log('geocode:', resp);
-      }).catch(function(err){
-        console.log('err', err);
-      });
-    })
+    // LocationService.get_locations().then(function(resp){
+    //   console.log('gigs:', resp);
+    //   $scope.locations = resp;
+    //
+    //   var lat_lng = [
+    //     $scope.locations[6].lat,
+    //     $scope.locations[6].lng
+    //   ]
+    //   new mapboxgl.Marker()
+    //     .setLngLat(lat_lng)
+    //     .addTo(map);
+    //
+    //   // $scope.locations.map(function(l, index){
+    //   //   // if(index == 6){
+    //   //     var address = l.street + ', ' + l.city + ', ' + l.state + ' ' + l.zip;
+    //   //
+    //   //     MapService.geocode(address).then(function(resp){
+    //   //       console.log('geocode:', resp);
+    //   //     }).catch(function(err){
+    //   //       console.log('err', err);
+    //   //     });
+    //   //   // }
+    //   //
+    //   // });
+    // });
 
     // mapboxgl.accessToken = 'pk.eyJ1Ijoic2FzaGFtNDMiLCJhIjoiY2lvYmlwZXB4MDN5Z3ZpbHp6Y29iNDNzOCJ9.07e5GLdp6XXmtuTGTshyWw';
     // var map = new mapboxgl.Map({
