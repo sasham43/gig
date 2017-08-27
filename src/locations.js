@@ -12,6 +12,7 @@ router.use(function(req, res, next){
 
 router.post('/add', function(req, res, next){
   var location = req.body;
+  location.owner_id = req.user.id;
   console.log('req.user:', req.user);
   req.db.locations.save(req.body).then(function(resp){
     console.log('saved location:', resp);

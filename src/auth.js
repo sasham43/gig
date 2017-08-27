@@ -59,8 +59,8 @@ module.exports = function(app, config) {
                   // console.log('connected to db')
                   db.users.find({google_id: profile.id}).then(function(resp){
                       if(resp.length && resp.length > 0){
-                        req.user[0] = resp;
-                        return done(null, profile);
+                        req.user = resp[0];
+                        return done(null, req.user);
                       } else {
                         db.users.save({
                           first_name: profile.name.givenName,
@@ -70,7 +70,7 @@ module.exports = function(app, config) {
                         }).then(function(resp){
                             console.log('saved user:', resp);
                             req.user = resp[0];
-                            return done(null, profile);
+                            return done(null, req.user);
                         }).catch(function(err){
                           console.log('err saving user', err);
                           return done(err);
