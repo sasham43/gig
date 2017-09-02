@@ -64,6 +64,17 @@ angular.module('GigApp', ['ngRoute'])
         });
 
         return d.promise;
+      },
+      get_gigs_locations: function(){
+        var d = $q.defer();
+
+        $http.get('api/locations/gigs').then(function(resp){
+          d.resolve(resp.data);
+        }).catch(function(err){
+          d.reject(err);
+        });
+
+        return d.promise;
       }
     }
   })
@@ -229,23 +240,17 @@ angular.module('GigApp', ['ngRoute'])
 
       $scope.markers = [];
 
-      LocationService.get_locations().then(function(resp){
+      LocationService.get_gigs_locations().then(function(resp){
         console.log('gigs:', resp);
         $scope.locations = resp;
-
-        // var lat_lng = [
-        //   $scope.locations[6].lat,
-        //   $scope.locations[6].lng
-        // ]
-        // new mapboxgl.Marker()
-        //   .setLngLat(lat_lng)
-        //   .addTo(map);
 
         $scope.locations.map(function(l, index){
           // if(index == 6){
           var el = document.createElement('div');
           el.classList.add('glyphicon');
           el.classList.add('glyphicon-map-marker');
+          el.style['color'] = 'red';
+          el.style['font-size'] = '16px';
           // el.style.width = '30px';
           // el.style.height = '30px';
 

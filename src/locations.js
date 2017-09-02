@@ -55,4 +55,14 @@ router.post('/add', function(req, res, next){
   });
 });
 
+router.get('/gigs', function(req, res, next){
+  req.db.get_gigs_locations().then(function(resp){
+    console.log('got gigs location:', resp);
+    res.status(200).send(resp);
+  }).catch(function(err){
+    console.log('failed save', err);
+    return next(err);
+  });
+});
+
 module.exports = router;

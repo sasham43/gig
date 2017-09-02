@@ -17,13 +17,14 @@ module.exports = function(name, thing){
     console.log('using existing connect:', thing)
     d.resolve(connections[name])
   } else {
-    console.log('connecting to db')
+    console.log('connecting to db',require('path').join(__dirname, '../db'))
 
     massive({
-      connectionString: config[name].connection,
+      connectionString: config[name].connection
+    },{
       scripts: require('path').join(__dirname, '../db')
     }).then(function(db){
-        // console.log('connected to db:',db)
+        console.log('connected to db:',db.loader.scripts)
         connections[name] = db;
         console.log('connections2:', thing,Object.keys(connections))
         // console.timeEnd('connect');

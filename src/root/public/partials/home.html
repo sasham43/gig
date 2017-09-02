@@ -1,4 +1,4 @@
-<div>
+<div class="main col-md-12">
   <h3><i class="glyphicon glyphicon-home"></i>home</h3>
   <div>
     <gig-menu></gig-menu>
@@ -48,7 +48,7 @@
       </div>
       <div class="form-group">
         <label>Location</label>
-        <select ng-model="new_gig.location">
+        <select ng-model="new_gig.location_id">
           <option ng-repeat="l in locations" ng-value="l.id">
             {{l.name}}
           </option>
@@ -71,20 +71,20 @@
   </div>
   <div class="gigs">
     <div class="gig" ng-repeat="g in gigs">
-      <div class="col-md-11">
+      <div class="">
         {{g.name}}
       </div>
-      <div class="col-md-1">
+      <div class="">
         <button class="btn" ng-click="edit_gig(g)">Edit</button>
       </div>
     </div>
   </div>
   <div class="locations">
     <div class="location" ng-repeat="l in locations">
-      <div class="col-md-11">
+      <div class="">
         {{l.name}}
       </div>
-      <div class="col-md-1">
+      <div class="">
         <button class="btn" ng-click="edit_location(l)">Edit</button>
       </div>
     </div>
