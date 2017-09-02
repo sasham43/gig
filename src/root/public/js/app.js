@@ -248,11 +248,9 @@ angular.module('GigApp', ['ngRoute'])
           // if(index == 6){
           var el = document.createElement('div');
           el.classList.add('glyphicon');
-          el.classList.add('glyphicon-map-marker');
-          el.style['color'] = 'red';
-          el.style['font-size'] = '16px';
-          // el.style.width = '30px';
-          // el.style.height = '30px';
+          el.classList.add('glyphicon-music');
+          el.classList.add('gig-marker');
+
 
           var lat_lng = [
             l.lat,

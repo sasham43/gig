@@ -24,3 +24,13 @@
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
+.gig-marker {
+  /*background-color: #92d8e2;*/
+  background: radial-gradient(circle at center, #ffffff 35%,#ffffff 35%,#92d8e2 93%);
+  color: black;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  border-radius: 10px;
+}
