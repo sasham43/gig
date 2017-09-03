@@ -202,7 +202,7 @@ angular.module('GigApp', ['ngRoute'])
         $scope.notify('Location saved!', 'success');
       }).catch(function(err){
         console.log('err saving location:', err);
-        $scope.notify(err, 'error');
+        $scope.notify('Error saving location', 'error');
       });
     };
     $scope.edit_location = function(l){
@@ -221,6 +221,9 @@ angular.module('GigApp', ['ngRoute'])
       $scope.show_new_location = false;
     };
     $scope.save_gig = function(){
+      $scope.new_gig.start_time = moment($scope.new_gig.start_time_input).format( 'HH:mm:ss');
+      $scope.new_gig.end_time = moment($scope.new_gig.end_time_input).format( 'HH:mm:ss');
+
       GigService.add_gig($scope.new_gig).then(function(resp){
         $scope.new_gig = {};
         $scope.show_new_gig = false;
@@ -228,7 +231,7 @@ angular.module('GigApp', ['ngRoute'])
         $scope.notify('Gig saved!', 'success');
       }).catch(function(err){
         console.log('err saving gig:', err);
-        $scope.notify(err, 'error');
+        $scope.notify('Error saving gig', 'error');
       });
     };
     $scope.cancel_gig = function(){

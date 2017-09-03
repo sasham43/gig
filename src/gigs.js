@@ -1,4 +1,5 @@
 var express = require('express');
+var _ = require('lodash');
 var router = express.Router();
 
 var dbconn = require('./db');
@@ -22,8 +23,10 @@ router.get('/', function(req, res, next){
 router.post('/add', function(req, res, next){
   var gig = req.body;
   gig.owner_id = req.user.id;
+  gig = _.omit(gig, ['start_time_input', 'end_time_input'])
+
   // console.log('req.user:', req.user);
-  req.db.gigs.save(req.body).then(function(resp){
+  req.db.gigs.save(gig).then(function(resp){
     console.log('saved location:', resp);
     res.status(200).send(resp);
   }).catch(function(err){

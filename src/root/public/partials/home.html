@@ -72,6 +72,14 @@
         <label>End Date</label>
         <input type="date" ng-model="new_gig.end_date" />
       </div>
+      <div class="form-group">
+        <label>Start Time</label>
+        <input type="time" ng-model="new_gig.start_time_input" />
+      </div>
+      <div class="form-group">
+        <label>End Time</label>
+        <input type="time" ng-model="new_gig.end_time_input" />
+      </div>
 
       <button class="btn btn-success" ng-click="save_gig()">Save</button>
       <button class="btn btn-danger" ng-click="cancel_gig()">Cancel</button>
