@@ -321,13 +321,14 @@ angular.module('GigApp', ['ngRoute'])
             marker.gigs = _.filter(gigs, function(g){
               return g.location_id == l.id;
             });
-            marker.id = l.id;
-            marker.name = l.name;
+            // marker.id = l.id;
+            // marker.name = l.name;
             if(marker.gigs.length && marker.gigs.length > 0){
               el.setAttribute('ng-click', 'select_venue(' + l.id + ')'); // a bit wack but oh well
             }
             var ng_el = angular.element(el);
             $compile(ng_el)($scope);
+            marker = _.extend(marker, l)
 
             marker.setLngLat(lat_lng)
             marker.addTo(map);

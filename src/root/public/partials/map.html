@@ -10,6 +10,9 @@
 
       <button ng-click="hide_drawer()" class="hide-drawer-btn"><i class="glyphicon glyphicon-chevron-down"></i></button>
     </div>
+    <div class="drawer-img-container">
+      <img ng-show="active_venue.image" ng-src="{{active_venue.image}}" class="location-image" />
+    </div>
     <div class="drawer-gigs">
       <span ng-repeat="gig in active_venue.gigs">{{$index+1}} {{gig.name}}</span>
     </div>
