@@ -9,7 +9,9 @@ CREATE TABLE "public"."locations" (
     "lat" float,
     "lon" float,
     "image" text,
-    PRIMARY KEY ("id")
+    "owner_id" int,
+    PRIMARY KEY ("id"),
+    FOREIGN KEY ("owner_id") REFERENCES "public"."users"("id")
 );
 
 ALTER TABLE "public"."locations"
