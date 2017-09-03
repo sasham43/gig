@@ -25,20 +25,40 @@ h3 {
 .menu {
   width: 100%;
   text-align: center;
+
+  padding-left: 0;
+  margin-bottom: 0;
 }
 
 .menu li {
   list-style-type: none;
-  display: inline;
+  display: inline-block;
+  width: 33%;
+  padding: 10px;
+}
+
+.menu li:hover {
+  color: #333;
+  background-color: #92d8e2;
 }
 
 .menu li a {
   padding: 10px;
-  width: 20%;
+  width: 100%;
+  /*color: aliceblue;*/
+  color: inherit;
 }
 
+.menu li:hover a,
 .menu li a:hover {
-  background-color: aliceblue;
+  /*background-color: aliceblue;*/
+  color: #333;
+}
+
+.menu.active-page a,
+.active-page {
+  /*border: solid 2px #92d8e2;*/
+  background-color: #92d8e2;
   color: #333;
 }
 

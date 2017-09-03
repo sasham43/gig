@@ -134,7 +134,9 @@ angular.module('GigApp', ['ngRoute'])
     return {
       restrict: 'E',
       // template: '<div>test</div>',
-      scope: {},
+      scope: {
+        active: '='
+      },
       templateUrl: '/partials/menu.html'
     }
   })

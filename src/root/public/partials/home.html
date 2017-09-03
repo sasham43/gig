@@ -1,7 +1,7 @@
 <div class="main col-md-12">
-  <h3><i class="glyphicon glyphicon-home"></i>home</h3>
+  <!-- <h3><i class="glyphicon glyphicon-home"></i>home</h3> -->
   <div>
-    <gig-menu></gig-menu>
+    <gig-menu active="'home'"></gig-menu>
   </div>
   <div ng-show="show_notification" ng-class="{'note-red': notification.status == 'error', 'note-green': notification.status == 'success'}" class="notification">
     {{notification.text}}

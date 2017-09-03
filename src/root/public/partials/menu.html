@@ -1,14 +1,14 @@
 <div>
   <ul class="menu">
-    <li>
+    <li ng-class="{'active-page': active == 'map'}">
       <i class="glyphicon glyphicon-map-marker"></i>
       <a href="/map">map</a>
     </li>
-    <li>
+    <li ng-class="{'active-page': active == 'list'}">
       <i class="glyphicon glyphicon-th-list"></i>
       <a href="/list">list</a>
     </li>
-    <li>
+    <li ng-class="{'active-page': active == 'home'}">
       <i class="glyphicon glyphicon-home"></i>
       <a href="/home">home</a>
     </li>
