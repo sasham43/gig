@@ -234,7 +234,7 @@ angular.module('GigApp', ['ngRoute'])
       $scope.show_new_gig = false;
     };
   })
-  .controller('MapController', function($scope, $q, MapService, GigService, LocationService){
+  .controller('MapController', function($scope, $q, $compile, MapService, GigService, LocationService){
     console.log('map');
     $scope.locations = [];
 
@@ -257,6 +257,10 @@ angular.module('GigApp', ['ngRoute'])
           },
           trackUserLocation: true
       }));
+
+      $scope.click_handler = function(id){
+        console.log('click', id)
+      }
 
       var promises = [
         LocationService.get_locations(),
@@ -283,6 +287,14 @@ angular.module('GigApp', ['ngRoute'])
               return g.location_id == l.id;
             });
             marker.name = l.name;
+            if(marker.gigs.length && marker.gigs.length > 0){
+              el.setAttribute('ng-click', 'click_handler(' + l.id + ')'); // a bit wack but oh well
+            }
+            var ng_el = angular.element(el);
+            // var generated = ng_el.html()
+            console.log('ng_el', ng_el);
+            // var compiled = $compile(ng_el.contents())($scope);
+            $compile(ng_el)($scope);
 
             marker.setLngLat(lat_lng)
             marker.addTo(map);
