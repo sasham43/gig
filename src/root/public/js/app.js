@@ -237,6 +237,10 @@ angular.module('GigApp', ['ngRoute'])
   .controller('MapController', function($scope, $q, $compile, MapService, GigService, LocationService){
     console.log('map');
     $scope.locations = [];
+    $scope.show_drawer = false;
+    $scope.active_venue = {
+      id: null
+    };
 
     MapService.get_maps().then(function(mapbox){
       // console.log('got map:', mapbox);
@@ -258,8 +262,20 @@ angular.module('GigApp', ['ngRoute'])
           trackUserLocation: true
       }));
 
-      $scope.click_handler = function(id){
-        console.log('click', id)
+      $scope.select_venue = function(id){
+        // console.log('click', id);
+        if($scope.active_venue.id == id){
+          $scope.show_drawer = false;
+          $scope.active_venue = {
+            id: null
+          };
+        } else {
+          $scope.active_venue = _.find($scope.locations, function(l){
+            return l.id == id;
+          });
+          console.log('active_venue:', $scope.active_venue)
+          $scope.show_drawer = true;
+        }
       }
 
       var promises = [
@@ -286,14 +302,12 @@ angular.module('GigApp', ['ngRoute'])
             marker.gigs = _.filter(gigs, function(g){
               return g.location_id == l.id;
             });
+            marker.id = l.id;
             marker.name = l.name;
             if(marker.gigs.length && marker.gigs.length > 0){
-              el.setAttribute('ng-click', 'click_handler(' + l.id + ')'); // a bit wack but oh well
+              el.setAttribute('ng-click', 'select_venue(' + l.id + ')'); // a bit wack but oh well
             }
             var ng_el = angular.element(el);
-            // var generated = ng_el.html()
-            console.log('ng_el', ng_el);
-            // var compiled = $compile(ng_el.contents())($scope);
             $compile(ng_el)($scope);
 
             marker.setLngLat(lat_lng)

@@ -4,4 +4,12 @@
   <div class="map-container">
     <div id="map"></div>
   </div>
+  <div class="drawer" ng-show="show_drawer">
+    <div class="drawer-title">
+      Venue
+
+      <button ng-click="hide_drawer()" class="hide-drawer-btn"><i class="glyphicon glyphicon-chevron-down"></i></button>
+    </div>
+    Name: {{active_venue.name}}
+  </div>
 </div>
