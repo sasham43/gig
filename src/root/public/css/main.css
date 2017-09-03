@@ -13,6 +13,15 @@ h3 {
   padding-bottom: 10px;
 }
 
+.logo-container {
+  width: 100%;
+  text-align: center;
+}
+
+.gig-header-logo {
+  height: 80px;
+}
+
 .menu {
   width: 100%;
   text-align: center;
