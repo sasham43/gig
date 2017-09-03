@@ -149,8 +149,13 @@ angular.module('GigApp', ['ngRoute'])
       });
     };
   })
-  .controller('HomeController', function($scope, LocationService, GigService){
+  .controller('HomeController', function($scope, $timeout, LocationService, GigService){
     console.log('home');
+    $scope.notification = {
+      text: '',
+      status: ''
+    };
+    $scope.show_notification = false;
     $scope.show_new_location = false;
     $scope.new_location = {};
     $scope.locations = [];
@@ -158,6 +163,16 @@ angular.module('GigApp', ['ngRoute'])
     $scope.show_new_gig = false;
     $scope.new_gig = {};
     $scope.gigs = [];
+
+    $scope.notify = function(text, status, timeout){
+      $scope.notification.text = text;
+      $scope.notification.status = status;
+      $scope.show_notification = true;
+      var delay = timeout || 3000;
+      $timeout(function(){
+        $scope.show_notification = false;
+      }, delay);
+    };
 
     $scope.get_locations = function(){
       LocationService.get_locations().then(function(resp){
@@ -179,8 +194,10 @@ angular.module('GigApp', ['ngRoute'])
         $scope.new_location = {};
         $scope.show_new_location = false;
         $scope.get_locations();
+        $scope.notify('Location saved!', 'success');
       }).catch(function(err){
         console.log('err saving location:', err);
+        $scope.notify(err, 'error');
       });
     };
     $scope.edit_location = function(l){
@@ -202,8 +219,10 @@ angular.module('GigApp', ['ngRoute'])
         $scope.new_gig = {};
         $scope.show_new_gig = false;
         $scope.get_gigs();
+        $scope.notify('Gig saved!', 'success');
       }).catch(function(err){
         console.log('err saving gig:', err);
+        $scope.notify(err, 'error');
       });
     };
     $scope.cancel_gig = function(){

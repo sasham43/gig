@@ -3,6 +3,9 @@
   <div>
     <gig-menu></gig-menu>
   </div>
+  <div ng-show="show_notification" ng-class="{'note-red': notification.status == 'error', 'note-green': notification.status == 'success'}" class="notification">
+    {{notification.text}}
+  </div>
   <div class="actions">
     <div class="add-new-location">
       <button class="btn btn-default btn-lg" ng-click="add_location()">Add New Location</button>
