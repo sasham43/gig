@@ -3,17 +3,19 @@
   <div>
     <gig-menu active="'home'"></gig-menu>
   </div>
+
   <div ng-show="show_notification" ng-class="{'note-red': notification.status == 'error', 'note-green': notification.status == 'success'}" class="notification">
     {{notification.text}}
   </div>
   <div class="actions">
     <div class="add-new-location">
-      <button class="btn btn-default btn-lg" ng-click="add_location()">Add New Location</button>
+      <button class="add-btn btn btn-default btn-lg" ng-click="add_location()"><i class="plus-icon glyphicon glyphicon-plus"></i>Add New Location</button>
     </div>
     <div class="add-new-gig">
-      <button class="btn btn-info btn-lg" ng-click="add_gig()">Add New Gig</button>
+      <button class="add-btn btn btn-info btn-lg" ng-click="add_gig()"><i class="plus-icon glyphicon glyphicon-plus"></i>Add New Gig</button>
     </div>
   </div>
+
   <div class="forms">
     <div ng-show="show_new_location">
       <div class="form-group">
@@ -44,6 +46,7 @@
       <button class="btn btn-success" ng-click="save_location()">Save</button>
       <button class="btn btn-danger" ng-click="cancel_location()">Cancel</button>
     </div>
+
     <div ng-show="show_new_gig">
       <div class="form-group">
         <label for="gig_name">Name</label>
@@ -73,11 +76,15 @@
       <button class="btn btn-success" ng-click="save_gig()">Save</button>
       <button class="btn btn-danger" ng-click="cancel_gig()">Cancel</button>
     </div>
-
-
   </div>
+
   <div class="gigs">
-    <div class="gig" ng-repeat="g in gigs">
+    <div ng-click="toggle_gigs()" class="gigs-header">
+      Gigs
+      <i ng-show="!show_gigs" class="chevron-icon glyphicon glyphicon-chevron-up"></i>
+      <i ng-show="show_gigs" class="chevron-icon glyphicon glyphicon-chevron-down"></i>
+    </div>
+    <div ng-show="show_gigs" class="gig" ng-repeat="g in gigs">
       <div class="">
         {{g.name}}
       </div>
@@ -86,8 +93,14 @@
       </div>
     </div>
   </div>
+
   <div class="locations">
-    <div class="location" ng-repeat="l in locations">
+    <div ng-click="toggle_locations()" class="gigs-header">
+      Locations
+      <i ng-show="!show_locations" class="chevron-icon glyphicon glyphicon-chevron-up"></i>
+      <i ng-show="show_locations" class="chevron-icon glyphicon glyphicon-chevron-down"></i>
+    </div>
+    <div ng-show="show_locations" class="location" ng-repeat="l in locations">
       <div class="">
         {{l.name}}
       </div>

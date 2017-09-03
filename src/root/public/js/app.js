@@ -153,6 +153,8 @@ angular.module('GigApp', ['ngRoute'])
   })
   .controller('HomeController', function($scope, $timeout, LocationService, GigService){
     console.log('home');
+    $scope.show_gigs = false;
+    $scope.show_locations = false;
     $scope.notification = {
       text: '',
       status: ''
@@ -185,6 +187,7 @@ angular.module('GigApp', ['ngRoute'])
 
     $scope.add_location = function(){
       $scope.show_new_location = true;
+      $scope.show_new_gig = false;
     };
     $scope.cancel_location = function(){
       $scope.show_new_location = false;
@@ -215,6 +218,7 @@ angular.module('GigApp', ['ngRoute'])
     $scope.get_gigs();
     $scope.add_gig = function(){
       $scope.show_new_gig = true;
+      $scope.show_new_location = false;
     };
     $scope.save_gig = function(){
       GigService.add_gig($scope.new_gig).then(function(resp){
@@ -234,6 +238,15 @@ angular.module('GigApp', ['ngRoute'])
     $scope.edit_gig = function(g){
       $scope.new_gig = g;
       $scope.show_new_gig = false;
+    };
+
+
+    $scope.toggle_gigs = function(){
+      $scope.show_gigs = !$scope.show_gigs;
+      // console.log('show', $scope.show_gigs)
+    };
+    $scope.toggle_locations = function(){
+      $scope.show_locations = !$scope.show_locations;
     };
   })
   .controller('MapController', function($scope, $q, $compile, MapService, GigService, LocationService){
