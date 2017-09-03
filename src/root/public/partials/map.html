@@ -5,11 +5,13 @@
     <div id="map"></div>
   </div>
   <div class="drawer" ng-show="show_drawer">
-    <div class="drawer-title">
-      Venue
+    <div class="drawer-banner">
+      <span class="drawer-title">{{active_venue.name}}</span>
 
       <button ng-click="hide_drawer()" class="hide-drawer-btn"><i class="glyphicon glyphicon-chevron-down"></i></button>
     </div>
-    Name: {{active_venue.name}}
+    <div class="drawer-gigs">
+      <span ng-repeat="gig in active_venue.gigs">{{$index+1}} {{gig.name}}</span>
+    </div>
   </div>
 </div>

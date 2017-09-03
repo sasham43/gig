@@ -63,3 +63,12 @@
   position: absolute;
   bottom: 0;
 }
+
+.drawer-banner {
+  font-weight: bold;
+  padding: 2px;
+}
+
+.hide-drawer-btn {
+  float: right;
+}

@@ -262,6 +262,10 @@ angular.module('GigApp', ['ngRoute'])
           trackUserLocation: true
       }));
 
+      $scope.hide_drawer = function(){
+        $scope.show_drawer = false;
+      };
+
       $scope.select_venue = function(id){
         // console.log('click', id);
         if($scope.active_venue.id == id){
