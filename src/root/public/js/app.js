@@ -234,8 +234,9 @@ angular.module('GigApp', ['ngRoute'])
       $scope.show_new_gig = false;
     };
   })
-  .controller('MapController', function($scope, MapService, GigService, LocationService){
+  .controller('MapController', function($scope, $q, MapService, GigService, LocationService){
     console.log('map');
+    $scope.locations = [];
 
     MapService.get_maps().then(function(mapbox){
       // console.log('got map:', mapbox);
@@ -259,12 +260,16 @@ angular.module('GigApp', ['ngRoute'])
 
       $scope.markers = [];
 
-      LocationService.get_gigs_locations().then(function(resp){
-        console.log('gigs:', resp);
-        $scope.locations = resp;
+      var promises = [
+        LocationService.get_locations(),
+        GigService.get_gigs()
+      ];
 
-        $scope.locations.map(function(l, index){
-          // if(index == 6){
+      $q.all(promises).then(function(data){
+        var locations = data[0];
+        var gigs = data[1];
+
+        locations.map(function(l){
           var el = document.createElement('div');
           el.classList.add('glyphicon');
           el.classList.add('glyphicon-music');
@@ -274,15 +279,43 @@ angular.module('GigApp', ['ngRoute'])
           var lat_lng = [
             l.lat,
             l.lng
-          ]
+          ];
           var marker =  new mapboxgl.Marker(el);
-            marker.setLngLat(lat_lng)
-            marker.addTo(map);
-          // }
-          $scope.markers.push(marker);
+          marker.setLngLat(lat_lng)
+          marker.addTo(map);
+          marker.gigs = _.filter(gigs, function(g){
+            return g.location_id == l.id;
+          });
+
+          $scope.locations.push(marker);
         });
-        console.log('markers"', $scope.markers);
+        console.log('locations:', $scope.locations);
       });
+
+      // LocationService.get_gigs_locations().then(function(resp){
+      //   console.log('gigs:', resp);
+      //   $scope.locations = resp;
+      //
+      //   $scope.locations.map(function(l, index){
+      //     // if(index == 6){
+      //     var el = document.createElement('div');
+      //     el.classList.add('glyphicon');
+      //     el.classList.add('glyphicon-music');
+      //     el.classList.add('gig-marker');
+      //
+      //
+      //     var lat_lng = [
+      //       l.lat,
+      //       l.lng
+      //     ]
+      //     var marker =  new mapboxgl.Marker(el);
+      //       marker.setLngLat(lat_lng)
+      //       marker.addTo(map);
+      //     // }
+      //     $scope.markers.push(marker);
+      //   });
+      //   console.log('markers"', $scope.markers);
+      // });
     });
   })
   .controller('ListController', function($scope){
